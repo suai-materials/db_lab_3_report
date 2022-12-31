@@ -1,0 +1,134 @@
+Тема: Создание модели БД и работа с физической БД в MySQL Workbench.
+
+Цель работы: Получение навыков с работы с инструментом MySQL Workbench.
+
+Задание №19: БД Компьютерной фирмы.
+
+Таблицы:
+
+1) Сотрудники (Код сотрудника, ФИО, Возраст, Пол, Адрес, Телефон,
+
+Паспортные данные, Код должности).
+
+2) Должности (Код должности, Наименование должности, Оклад, Обязанности, Требования).
+
+3) Виды комплектующих (Код вида, Наименование, Описание).
+
+4) Комплектующие (Код комплектующего, Код вида, Марка, Фирма
+
+производитель, Страна производитель, Дата выпуска, Характеристики, Срок
+
+гарантия, Описание, Цена).
+
+5) Заказчики (Код заказчика, ФИО, Адрес, Телефон).
+
+6) Услуги (Код услуги, Наименование, Описание, Стоимость).
+
+7) Заказы (Дата заказа, Дата исполнения, Код заказчика, Код комплектующего 1, Код комплектующего 2, Код комплектующего 3, Доля предоплаты, Отметка об оплате, Отметка об исполнении, Общая стоимость, Срок общей гарантии, Код услуги 1, Код услуги 2, Код услуги 3, Код сотрудника).
+
+Запросы:
+
+1) Отобразить заказы отдельных заказчиков;
+
+2) Отобразить комплектующие определенного производителя.
+
+Диаграмма созданных таблиц:
+
+[[file:images/1.jpg]]
+
+Заполненные таблицы:
+
+1. Sex (Пол)
+
+  [[file:images/2.jpg]]
+
+2. Position (Должность)
+
+  [[file:images/3.jpg]]
+
+3. Employee (Сотрудник)
+
+  [[file:images/4.jpg]]
+
+4. Type (Тип компонента)
+
+  [[file:images/5.jpg]]
+
+5. Manufacturer (Производители)
+
+  [[file:images/6.jpg]]
+
+6. Country (Страна)
+
+  [[file:images/7.jpg]]
+
+7. Component (Комппоненты)
+
+  [[file:images/8.jpg]]
+
+8. Customer (Покупатель)
+
+  [[file:images/9.jpg]]
+
+9. Service (Сервисы)
+
+  [[file:images/10.jpg]]
+
+10. Order (Заказы)
+
+  [[file:images/11.jpg]]
+
+11. order​_components (Компоненты по заказам)
+
+  [[file:images/12.jpg]]
+
+12. order​_services (Сервисы по заказам)
+
+  [[file:images/13.jpg]]
+
+Запросы:
+
+1) Отобразить заказы отдельных заказчиков;
+
+   #+begin_src sql
+SELECT customer_id,
+       last_name,
+       first_name,
+       second_name,
+       `order`.id as 'order_id',
+       date,
+       date_execution,
+       pay_proportion,
+       is_execution,
+       is_payed,
+       warranty,
+       employee_id
+FROM `order`
+         JOIN customer c on c.id = '${id покупателя}' AND `order`.customer_id = c.id;
+   #+end_src
+
+   [[file:images/14.jpg]]
+
+   [[file:images/15.jpg]]
+
+2) Отобразить комплектующие определенного производителя.
+
+   #+begin_src sql
+SELECT name as 'Имя производителя',
+       component.id,
+       type_id,
+       brand,
+       manufacturer_id,
+       man_Country,
+       release_date,
+       characteristics,
+       warranty,
+       description,
+       price
+FROM component
+         JOIN manufacturer m on m.name = '${Имя производителя}' AND component.manufacturer_id = m.id;
+   #+end_src
+
+   [[file:images/16.jpg]]
+
+   [[file:images/17.jpg]]
